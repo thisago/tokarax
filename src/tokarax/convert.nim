@@ -3,7 +3,7 @@
 from std/xmltree import attrs, XmlNode, xnText, xnElement, xnCData, xnEntity,
                         xnComment, items, kind, text, tag, len
 from std/strformat import `&`
-from std/strutils import strip, replace, repeat
+from std/strutils import strip, replace, repeat, split
 from std/strtabs import len, pairs
 
 proc getKaraxTagName(htmlTag: string): string =
@@ -54,7 +54,10 @@ proc toKarax*(html: XmlNode): string =
         if txt.replace("\t").len > 0:
           add &"text \"{txt}\""
       of xnComment:
-        add &"#{n.text}"
+        if n.text.split("\n").len > 0:
+          add &"#[{n.text}]#"
+        else:
+          add &"#{n.text}"
       of xnElement:
         add process(n, ident + 2)
       else:

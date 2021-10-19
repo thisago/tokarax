@@ -2,17 +2,12 @@
 include pkg/karax/prelude
 
 proc createDom(): VNode =
-  result = buildHtml(html(lang = "en")):
-      head:
-        meta(charset = "UTF-8")
-        meta(content = "IE=edge", http-equiv = "X-UA-Compatible")
-        meta(content = "width=device-width, initial-scale=1.0", name = "viewport")
-        title:
-          text "Example page"
-      body:
-        h1:
-          text "Hello World!"
-        # I am a comment 
-    # Outside comment 
+  result = buildHtml(body):
+    h1:
+      text "Hello World!"
+    #[ I
+   am
+   a
+   comment ]#
 
 setRenderer createDom
