@@ -3,7 +3,7 @@
 from std/xmltree import attrs, XmlNode, xnText, xnElement, xnCData, xnEntity,
                         xnComment, items, kind, text, tag, len
 from std/strformat import `&`
-from std/strutils import strip, replace, repeat, split
+from std/strutils import strip, replace, repeat, split, multiReplace
 from std/strtabs import len, pairs
 
 using
@@ -59,7 +59,6 @@ proc toKaraxTag(node): string =
   elif not hasParams:
     result.add "()"
 
-
 proc toKarax*(html: XmlNode): string =
   ## Convert parsed html to Karax node representation
   proc process(node; ident = 2): string =
@@ -76,10 +75,14 @@ proc toKarax*(html: XmlNode): string =
         if txt.len > 0:
           add &"text \"{txt}\""
       of xnComment:
-        if n.text.split("\n").len > 0:
-          add &"#[{n.text}]#"
+        let txt = n.getText.multiReplace({
+          "#[": "# [",
+          "]#": "] #",
+        })
+        if txt.split("\l").len > 1:
+          add &"#[ {txt} ]#"
         else:
-          add &"#{n.text}"
+          add &"# {txt}"
       of xnElement:
         add process(n, ident + 2)
       else:
@@ -95,4 +98,8 @@ when isMainModule:
 <h1 id="title">Hello world</h1>
 <button class="btn btn-danger">Click me</button>
 <!-- I am a comment -->
+<!-- ]#
+Multiline
+comment
+#[ -->
 """
