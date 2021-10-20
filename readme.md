@@ -4,12 +4,13 @@ Converts HTML to Karax representation
 
 ## Usage
 
-**Help**
 
+**Example**
 ```bash
 $ tokarax -i index.html -o main.nim
 ```
 
+**Help**
 ```bash
 $ tokarax --help
 Usage:
