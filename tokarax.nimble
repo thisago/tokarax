@@ -2,7 +2,7 @@
 
 version       = "0.2.1"
 author        = "Thiago Ferreira"
-description   = "A new awesome nimble package"
+description   = "Converts HTML to Karax representation"
 license       = "MIT"
 srcDir        = "src"
 
