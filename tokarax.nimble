@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.2.1"
+version       = "0.2.2"
 author        = "Thiago Ferreira"
 description   = "Converts HTML to Karax representation"
 license       = "MIT"

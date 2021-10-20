@@ -1,6 +1,6 @@
 ## Main module of tokarax
 
-import tokarax/convert
+import tokaraxpkg/convert
 export convert
 
 from std/os import fileExists, getCurrentDir, `/`

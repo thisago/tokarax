@@ -24,6 +24,10 @@ Options:
   -j, --justBody  bool    true      Use this to parse all tags (not just `body`)
 ```
 
+## TODO
+
+- [ ] Add tests
+
 ## License
 
 GPL-3
