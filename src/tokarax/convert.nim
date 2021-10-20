@@ -6,6 +6,9 @@ from std/strformat import `&`
 from std/strutils import strip, replace, repeat, split
 from std/strtabs import len, pairs
 
+using
+  node: XmlNode
+
 proc getKaraxTagName(htmlTag: string): string =
   case htmlTag:
   of "#text": "text"
@@ -27,20 +30,39 @@ proc getKaraxTagName(htmlTag: string): string =
   of "text": "stext"
   else: htmlTag
 
-proc toKaraxTag(node: XmlNode): string =
+func getText(node): string =
+  if node.kind in {xnText, xnComment, xnCData, xnEntity}:
+    let txt = node.text.strip
+    if txt.replace("\l", "").len > 0:
+      result = txt
+
+proc toKaraxTag(node): string =
   result = &"{getKaraxTagName node.tag}"
+  var hasParams = false
   if not node.attrs.isNil:
+    hasParams = true
     result.add "("
     for key, val in node.attrs:
       result.add &"{key} = \"{val}\", "
 
     result = result[0..^3] & ")"
-  if node.len > 0:
+  var hasChild = false
+  for n in node:
+    if n.kind != xnText:
+      hasChild = true
+    elif n.getText.len > 0:
+      hasChild = true
+    if hasChild:
+      break
+  if hasChild or node.getText.len > 0:
     result.add ":"
+  elif not hasParams:
+    result.add "()"
+
 
 proc toKarax*(html: XmlNode): string =
   ## Convert parsed html to Karax node representation
-  proc process(node: XmlNode; ident = 2): string =
+  proc process(node; ident = 2): string =
     if node.tag != "document":
       result = toKaraxTag node
       result.add "\l"
@@ -50,8 +72,8 @@ proc toKarax*(html: XmlNode): string =
       var a = ""
       case n.kind:
       of xnText:
-        let txt = n.text.strip
-        if txt.replace("\t").len > 0:
+        let txt = n.getText
+        if txt.len > 0:
           add &"text \"{txt}\""
       of xnComment:
         if n.text.split("\n").len > 0:

@@ -1,7 +1,7 @@
 # Package
 
-version       = "0.1.0"
-author        = "HELLoSKUuLL"
+version       = "0.1.1"
+author        = "Thiago Ferreira"
 description   = "A new awesome nimble package"
 license       = "MIT"
 srcDir        = "src"
