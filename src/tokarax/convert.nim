@@ -9,7 +9,7 @@ from std/strtabs import len, pairs
 using
   node: XmlNode
 
-proc getKaraxTagName(htmlTag: string): string =
+func getKaraxTagName(htmlTag: string): string =
   case htmlTag:
   of "#text": "text"
   of "#int": "int"
@@ -30,6 +30,12 @@ proc getKaraxTagName(htmlTag: string): string =
   of "text": "stext"
   else: htmlTag
 
+const nimSymbols = ["addr", "and", "as", "asm", "bind", "block", "break", "case", "cast", "concept", "const", "continue", "converter", "defer", "discard", "distinct", "div", "do", "elif", "else", "end", "enum", "except", "export", "finally", "for", "from", "func", "if", "import", "in", "include", "interface", "is", "isnot", "iterator", "let", "macro", "method", "mixin", "mod", "nil", "not", "notin", "object", "of", "or", "out", "proc", "ptr", "raise", "ref", "return", "shl", "shr", "static", "template", "try", "tuple", "type", "using", "var", "when", "while", "xor", "yield"]
+func escapeSymbol(s: string): string =
+  result = s
+  if s in nimSymbols:
+    result = &"`{s}`"
+
 func getText(node): string =
   if node.kind in {xnText, xnComment, xnCData, xnEntity}:
     let txt = node.text.strip
@@ -43,7 +49,7 @@ proc toKaraxTag(node): string =
     hasParams = true
     result.add "("
     for key, val in node.attrs:
-      result.add &"{key} = \"{val}\", "
+      result.add &"{escapeSymbol key} = \"{val}\", "
 
     result = result[0..^3] & ")"
   var hasChild = false

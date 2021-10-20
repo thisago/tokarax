@@ -9,5 +9,6 @@ proc createDom(): VNode =
    am
    a
    comment ]#
+    input(`type` = "checkbox", id = "13", name = "Test")
 
 setRenderer createDom
