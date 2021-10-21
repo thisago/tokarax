@@ -1,4 +1,4 @@
-# Generated with https://github.com/karaxnim/karax
+# Generated with https://github.com/thisago/tokarax
 include pkg/karax/prelude
 
 proc createDom(): VNode =
