@@ -21,4 +21,4 @@ task build_release, "Builds the release version":
 task build_danger, "Builds the danger version":
   exec "nimble -d:danger build"
 task gen_docs, "Generates the documentation":
-  exec "nim doc --project --out:do  cs src/tokarax.nim"
+  exec "nim doc --project --out:docs src/tokarax.nim"
