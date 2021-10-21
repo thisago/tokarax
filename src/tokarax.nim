@@ -9,7 +9,7 @@ from std/htmlparser import parseHtml
 from std/strutils import indent, `%`, split, join, strip
 from std/xmltree import findAll
 
-const nimFileBase = """# Generated with https://github.com/karaxnim/karax
+const nimFileBase = """# Generated with https://github.com/thisago/tokarax
 include pkg/karax/prelude
 
 proc createDom(): VNode =
