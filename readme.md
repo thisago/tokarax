@@ -43,6 +43,7 @@ Options:
 ## TODO
 
 - [ ] Add tests
+- [ ] Create an vscode extension with this
 
 ## License
 
