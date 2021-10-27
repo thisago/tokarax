@@ -24,15 +24,19 @@ proc genNimFile(code: string): string =
     parts[1..^1].join("\l").indent 2
   ]
 
-proc main(input: string; output = ""; justBody = true) =
+proc main(input: string; output = ""; parseAll = false) =
   ## Converts HTML to Karax representation
   let inFile = getCurrentDir() / input
   if not fileExists inFile:
     quit fmt"Input file '{input}' not exists"
   let html = parseHtml inFile.readFile
   var el = html
-  if justBody:
-    el = html.findAll("body")[0]
+  if not parseAll:
+    let bodys = html.findAll("body")
+    if bodys.len > 0:
+      el = bodys[0]
+    else:
+      quit "Body not found. Use `--parseAll` to parse all"
   let karaxDsl = toKarax el
   if output.len > 0:
     var nimFile = genNimFile karaxDsl
@@ -43,7 +47,7 @@ proc main(input: string; output = ""; justBody = true) =
 when isMainModule:
   import pkg/cligen
   dispatch main, help = {
-    "justBody": "Use this to parse all tags (not just `body`)",
+    "parseAll": "Parses every HTML. Default is just body (false)",
     "output": "Set output; Leave it blank to print in stdout",
     "input": "Set input"
   }

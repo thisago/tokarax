@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.3.1 (10/27/2021)
+
+- When HTML has no body the CLI is no longer crashing
+- Renamed parameter `justBOdy` to `parseAll`
+
+---
+
 ## Version 0.3.0 (10/21/2021)
 
 - Added possibility to output in stdout in CLI
